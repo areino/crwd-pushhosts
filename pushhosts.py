@@ -13,7 +13,7 @@ r"""PushHosts - Push HOSTS file to Windows endpoints.
 
  CHANGE LOG
 
- 12/06/2023   v1.0    First version
+ 12/06/2023   v0.9    First version
 
 """
 # Import dependencies
