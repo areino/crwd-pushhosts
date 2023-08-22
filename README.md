@@ -19,7 +19,7 @@ This script has the potential to disrupt network connections from the endpoint. 
 
 In order to run this script, you will need access to CrowdStrike [API keys](https://falcon.crowdstrike.com/api-clients-and-keys/clients) with the following scopes:
 
-![Step 1](../img/step1.png)
+![Step 1](./img/step1.png)
 
 | Service Collection | Scope |
 | :---- | :---- |
