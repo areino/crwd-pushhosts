@@ -14,6 +14,10 @@ The script uses the fantastic [FalconPY SDK](https://github.com/crowdstrike/falc
 ‼️WARNING‼️
 This script has the potential to disrupt network connections from the endpoint. It is recommended users test with a limited Host Group first to troubleshoot any issues.
 
+‼️WARNING‼️
+This script is still undergoing testing. Please see warning above. Your mileage may vary. You're on your own, etc.
+
+
 ## Running the program
 
 ### Step 1 - API client
