@@ -35,8 +35,9 @@ In addition to this you will need the endpoints to be asigned to a "[Response Po
 
 Lastly, the desired "hosts" file to push to Windows endpoints needs to be uploaded to the "Falcon Real Time Response" > "[put files](https://falcon.crowdstrike.com/real-time-response/scripts/put-files?)" section in the console.
 
-## Execution syntax
-This example accepts the following input parameters.
+### Step 4 - Execution
+
+This script accepts the following input parameters.
 | Parameter | Purpose | Category |
 | :--- | :--- | :--- |
 | `--falcon_client_id` | Falcon API client ID | required |
