@@ -19,7 +19,7 @@ This script has the potential to disrupt network connections from the endpoint. 
 
 In order to run this script, you will need access to CrowdStrike [API keys](https://falcon.crowdstrike.com/api-clients-and-keys/clients) with the following scopes:
 
-![Step 1](./img/step1.png)
+![Step 1](./images/step1.png)
 
 | Service Collection | Scope |
 | :---- | :---- |
@@ -33,14 +33,14 @@ In order to run this script, you will need access to CrowdStrike [API keys](http
 
 In addition to this you will need the endpoints to be asigned to a "[Response Policy](https://falcon.crowdstrike.com/configuration/sensor-update/policies)" that allows "Real Time Response", and has the "put" command enabled.
 
-![Step 2](./img/step2.png)
+![Step 2](./images/step2.png)
 
 
 ### Step 3 - Upload file
 
 Lastly, the desired "hosts" file to push to Windows endpoints needs to be uploaded to the "Falcon Real Time Response" > "[put files](https://falcon.crowdstrike.com/real-time-response/scripts/put-files?)" section in the console.
 
-![Step 3](./img/step3.png)
+![Step 3](./images/step3.png)
 
 
 ### Step 4 - Execution
@@ -62,4 +62,4 @@ python3 pushhosts.py --falcon_client_id FALCON_CLIENT_ID --falcon_client_secret 
                         --scope hostgroup --scope_id HOST_GROUP_ID --hosts_file FILEHASH
 ```
 
-![Execution](./img/step4.png)
+![Execution](./images/step4.png)
