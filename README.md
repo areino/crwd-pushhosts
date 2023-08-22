@@ -1,7 +1,8 @@
 # PushHosts v1.1
 
-It is a script that fetches CID or Host Group hosts, and uses the batch command and offline queuing of Real-Time Response API to centrally 
-and conveniently push HOSTS files to Windows.
+This is a script to be used by CrowdStrike Falcon clients, that fetches CID or Host Group hosts, and uses the batch command and offline queuing of Real-Time Response API to centrally and conveniently push HOSTS files to Windows.
+
+The script uses the fantastic [FalconPY SDK](https://github.com/crowdstrike/falconpy)
 
 - It uses native RTR commands, which will not trigger a detection/prevention in relation to sensor anti-tampering. 
 - Because it uses the RTR API it is run centrally through our cloud, it does NOT need to be distributed to each targeted host. 
