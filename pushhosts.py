@@ -8,17 +8,20 @@ r"""PushHosts - Push HOSTS file to Windows endpoints.
   |____|   |____//____  >___|  /\___|_  / \____/____  > |__| /____  >
                       \/     \/       \/            \/            \/ 
 
- Use RTR API to pish HOSTS file to endpoints across CID or host group
+ Use RTR API to push HOSTS file to endpoints across CID or host group
  FalconPy v1.0
 
  CHANGE LOG
 
- 12/06/2023   v0.9    First version
+ 12/06/2023   v1.0    First version
+ 22/08/2023   v1.1    Add rollback capability and some bug fixes, tested with FalconPy 1.3.0
 
 """
 # Import dependencies
 import datetime
 from argparse import ArgumentParser, RawTextHelpFormatter
+
+version = "1.1"
 
 # Define logging function
 def log(msg):
@@ -32,7 +35,8 @@ try:
         OAuth2,
         RealTimeResponse,
         RealTimeResponseAdmin,
-        HostGroup
+        HostGroup,
+        SensorDownload
     )
 except ImportError as err:
     log(err)
@@ -54,6 +58,11 @@ req.add_argument("--falcon_client_id",
 
 req.add_argument("--falcon_client_secret",
                  help="CrowdStrike Falcon API Client Secret",
+                 required=True
+                 )
+
+req.add_argument("--hosts_file",
+                 help="Hash (sha256) of HOSTS file to deploy. Must be uploaded to 'PUT' files in the console.",
                  required=True
                  )
 
@@ -83,13 +92,37 @@ if args.scope.lower() not in ["cid", "hostgroup"]:
 
 # Main routine
 def main():  
-    log("Starting execution of PushHosts")
+    log(f"Starting execution of PushHosts v{version}")
 
     log("Authenticating to API")
     auth = OAuth2(client_id=args.falcon_client_id,
                   client_secret=args.falcon_client_secret,
                   base_url=args.base_url
                   )
+
+    # Check which CID the API client is operating in, as sanity check. Exit if operating CID does not match provided scope_id.
+    falcon = SensorDownload(auth_object=auth, base_url=args.base_url)
+    current_cid = falcon.get_sensor_installer_ccid()["body"]["resources"][0][:-3]
+    if (args.scope.lower() == "cid" and (args.scope_id.lower() != current_cid.lower())):
+        log(f"The entered CID [{args.scope_id.upper()}] does not match the API client CID [{current_cid.upper()}].")
+        raise SystemExit(f"The entered CID [{args.scope_id.upper()}] does not match the API client CID [{current_cid.upper()}].")
+
+
+    # Check that hosts file specified exists
+    falcon = RealTimeResponseAdmin(auth_object=auth, base_url=args.base_url)
+    put_files = falcon.get_put_files_v2(ids=falcon.list_put_files()["body"]["resources"])["body"]["resources"]
+    found = False
+
+    for put_file in put_files:
+        if put_file['sha256'].lower() == args.hosts_file.lower():
+            found = True
+            filename = put_file['name']
+            log(f"The selected HOSTS file is: {put_file['name']} ({put_file['sha256']}), modified {put_file['modified_timestamp'][:19]} by {put_file['modified_by']}")
+
+    if not found:
+        log(f"The entered HOSTS file hash [{args.hosts_file.lower()}] does not exist.")
+        raise SystemExit(f"The entered HOSTS file hash [{args.hosts_file.lower()}] does not exist.")     
+
 
     # Fetch list of hosts
     if args.scope.lower() == "cid":
@@ -181,13 +214,22 @@ def main():
 
     response = falcon_admin.batch_admin_command(batch_id=batch_id,
                                                         base_command="put",
-                                                        command_string=f"put hosts"
+                                                        command_string=f"put {filename}"
                                                         )
     if response["status_code"] == 201:
-        log(f"-- Command: put hosts")
+        log(f"-- Command: put {filename}")
     else:
         raise SystemExit(f"Error, Response: {response['status_code']} - {response.text}")
 
+    if filename.lower() != "hosts":
+        response = falcon.batch_active_responder_command(batch_id=batch_id,
+                                                            base_command="mv",
+                                                            command_string=f"mv {filename} hosts"
+                                                            )
+        if response["status_code"] == 201:
+            log(f"-- Command: mv {filename} hosts")
+        else:
+            raise SystemExit(f"Error, Response: {response['status_code']} - {response.text}")
 
 
     log("-- Finished launching RTR commands, please check progress in the RTR audit logs")
@@ -195,3 +237,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+ 
