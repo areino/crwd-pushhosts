@@ -13,8 +13,11 @@ and conveniently push HOSTS files to Windows.
 ‼️WARNING‼️
 This script has the potential to disrupt network connections from the endpoint. It is recommended users test with a limited Host Group first to troubleshoot any issues.
 
-### Running the program
-In order to run this demonstration, you will need access to CrowdStrike [API keys](https://falcon.crowdstrike.com/api-clients-and-keys/clients) with the following scopes:
+## Running the program
+
+### Step 1 - API client
+
+In order to run this script, you will need access to CrowdStrike [API keys](https://falcon.crowdstrike.com/api-clients-and-keys/clients) with the following scopes:
 
 | Service Collection | Scope |
 | :---- | :---- |
@@ -24,11 +27,15 @@ In order to run this demonstration, you will need access to CrowdStrike [API key
 | Real-Time Response (admin) | __WRITE__ |
 | Sensor Download | __READ__ |
 
+### Step 2 - RTR Policy
+
 In addition to this you will need the endpoints to be asigned to a "[Response Policy](https://falcon.crowdstrike.com/configuration/sensor-update/policies)" that allows "Real Time Response", and has the "put" command enabled.
 
-Lastly, the desired "hosts" file to push to Windows endpoints needs to be uploaded to the "Falcon Real Time Response > 'put' files" section in the console.
+### Step 3 - Upload file
 
-### Execution syntax
+Lastly, the desired "hosts" file to push to Windows endpoints needs to be uploaded to the "Falcon Real Time Response" > "[put files](https://falcon.crowdstrike.com/real-time-response/scripts/put-files?)" section in the console.
+
+## Execution syntax
 This example accepts the following input parameters.
 | Parameter | Purpose | Category |
 | :--- | :--- | :--- |
@@ -39,7 +46,7 @@ This example accepts the following input parameters.
 | `--base_url` | CrowdStrike base URL (only required for GovCloud, pass usgov1) | optional |
 | `--hosts_file` | Hash (SHA256) of the "[put file](https://falcon.crowdstrike.com/real-time-response/scripts/put-files?)" to push to endpoints as "hosts" file | required |
 
-If you want to set or change proxy configuration:
+If you want to push a hosts file:
 
 ```shell
 python3 pushhosts.py --falcon_client_id FALCON_CLIENT_ID --falcon_client_secret FALCON_CLIENT_SECRET 
