@@ -20,6 +20,17 @@ This script is still undergoing testing. Please see warning above. Your mileage 
 
 ## Running the program
 
+### Step 0 - Install FalconPY
+
+This script relies on [FalconPY SDK](https://github.com/crowdstrike/falconpy) to work.
+
+In the machine where you have Python installed, please use the following command to install FalconPY.
+
+```shell
+python3 -m pip install crowdstrike-falconpy
+```
+
+
 ### Step 1 - API client
 
 In order to run this script, you will need access to CrowdStrike [API keys](https://falcon.crowdstrike.com/api-clients-and-keys/clients) with the following scopes:
