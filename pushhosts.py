@@ -15,13 +15,14 @@ r"""PushHosts - Push HOSTS file to Windows endpoints.
 
  12/06/2023   v1.0    First version
  22/08/2023   v1.1    Add rollback capability and some bug fixes, tested with FalconPy 1.3.0
+ 31/08/2023   v1.2    Add RTR command to fix permissions to new HOSTS file
 
 """
 # Import dependencies
 import datetime
 from argparse import ArgumentParser, RawTextHelpFormatter
 
-version = "1.1"
+version = "1.2"
 
 # Define logging function
 def log(msg):
@@ -231,6 +232,15 @@ def main():
         else:
             raise SystemExit(f"Error, Response: {response['status_code']} - {response.text}")
 
+    response = falcon_admin.batch_admin_command(batch_id=batch_id,
+                                                        base_command="run",
+                                                        command_string="ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX"
+                                                        )
+    if response["status_code"] == 201:
+        log("-- Command: ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX")
+    else:
+        raise SystemExit(f"Error, Response: {response['status_code']} - {response.text}")
+     
 
     log("-- Finished launching RTR commands, please check progress in the RTR audit logs")
     log("End")
