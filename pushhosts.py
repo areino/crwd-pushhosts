@@ -111,7 +111,9 @@ def main():
 
     # Check that hosts file specified exists
     falcon = RealTimeResponseAdmin(auth_object=auth, base_url=args.base_url)
+
     put_files = falcon.get_put_files_v2(ids=falcon.list_put_files()["body"]["resources"])["body"]["resources"]
+
     found = False
 
     for put_file in put_files:
@@ -234,13 +236,24 @@ def main():
 
     response = falcon_admin.batch_admin_command(batch_id=batch_id,
                                                         base_command="run",
-                                                        command_string="ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX"
+                                                        command_string="run ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX"
                                                         )
     if response["status_code"] == 201:
-        log("-- Command: ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX")
+        log("-- Command: run ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX")
     else:
         raise SystemExit(f"Error, Response: {response['status_code']} - {response.text}")
      
+
+
+    response = falcon_admin.batch_admin_command(batch_id=batch_id,
+                                                        base_command="run",
+                                                        command_string="run ipconfig /flushdns"
+                                                        )
+    if response["status_code"] == 201:
+        log("-- Command: run ipconfig /flushdns")
+    else:
+        raise SystemExit(f"Error, Response: {response['status_code']} - {response.text}")
+
 
     log("-- Finished launching RTR commands, please check progress in the RTR audit logs")
     log("End")
