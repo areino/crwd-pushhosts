@@ -56,7 +56,8 @@ In addition to this you will need the endpoints to be asigned to a "[Response Po
 
 Lastly, the desired "hosts" file to push to Windows endpoints needs to be uploaded to the "Falcon Real Time Response" > "[put files](https://falcon.crowdstrike.com/real-time-response/scripts/put-files?)" section in the console.
 
-For this step, remember that the user uiploading the file needs to have the "Real Time Responder - Administrator" role.
+!!WARNING!!
+For this step, remember that the user uploading the file needs to have the "Real Time Responder - Administrator" role. The "Falcon Administrator" role does not include this role by default.
 
 ![Step 3](./images/step3.png)
 
