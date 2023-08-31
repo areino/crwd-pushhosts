@@ -235,8 +235,8 @@ def main():
             raise SystemExit(f"Error, Response: {response['status_code']} - {response.text}")
 
     response = falcon_admin.batch_admin_command(batch_id=batch_id,
-                                                        base_command="run",
-                                                        command_string="run ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX"
+                                                        base_command="runscript",
+                                                        command_string="runscript -Raw=```ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX```"
                                                         )
     if response["status_code"] == 201:
         log("-- Command: run ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX")
@@ -246,8 +246,8 @@ def main():
 
 
     response = falcon_admin.batch_admin_command(batch_id=batch_id,
-                                                        base_command="run",
-                                                        command_string="run ipconfig /flushdns"
+                                                        base_command="runscript",
+                                                        command_string="runscript -Raw=```ipconfig /flushdns```"
                                                         )
     if response["status_code"] == 201:
         log("-- Command: run ipconfig /flushdns")
