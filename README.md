@@ -1,4 +1,4 @@
-# PushHosts v1.1
+# PushHosts v1.2
 
 This is a script to be used by CrowdStrike Falcon clients, that fetches CID or Host Group hosts, and uses the batch command and offline queuing of Real-Time Response API to centrally and conveniently push HOSTS files to Windows.
 
@@ -55,6 +55,8 @@ In addition to this you will need the endpoints to be asigned to a "[Response Po
 ### Step 3 - Upload file
 
 Lastly, the desired "hosts" file to push to Windows endpoints needs to be uploaded to the "Falcon Real Time Response" > "[put files](https://falcon.crowdstrike.com/real-time-response/scripts/put-files?)" section in the console.
+
+For this step, remember that the user uiploading the file needs to have the "Real Time Responder - Administrator" role.
 
 ![Step 3](./images/step3.png)
 
