@@ -47,7 +47,7 @@ In order to run this script, you will need access to CrowdStrike [API keys](http
 
 ### Step 2 - RTR Policy
 
-In addition to this you will need the endpoints to be asigned to a "[Response Policy](https://falcon.crowdstrike.com/configuration/real-time-response/policies)" that allows "Real Time Response", and has the "put" command enabled.
+In addition to this you will need the endpoints to be asigned to a "[Response Policy](https://falcon.crowdstrike.com/configuration/real-time-response/policies)" that allows "Real Time Response", and has the "put" and "run" commands enabled.
 
 ![Step 2](./images/step2.png)
 
