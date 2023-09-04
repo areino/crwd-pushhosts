@@ -245,12 +245,10 @@ def main():
 
     response = falcon_admin.batch_admin_command(batch_id=batch_id,
                                                         base_command="runscript",
-                                                        command_string="runscript -Raw=```ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX```"
+                                                        command_string="runscript -Raw=```ICACLS c:\windows\system32\drivers\etc\hosts /grant *S-1-5-32-545:RX```"
                                                         )
     if response["status_code"] == 201:
-        log("-- Command: run ICACLS c:\windows\system32\drivers\etc\hosts /grant Users:RX")
-    else:
-        raise SystemExit(f"Error, Response: {response['status_code']} - {response.text}")
+        log("-- Command: run ICACLS c:\windows\system32\drivers\etc\hosts /grant *S-1-5-32-545:RX")
      
 
 
