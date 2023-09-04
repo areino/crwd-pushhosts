@@ -1,4 +1,4 @@
-# PushHosts v1.2
+# PushHosts v1.3
 
 This is a script to be used by CrowdStrike Falcon clients, that fetches CID or Host Group hosts, and uses the batch command and offline queuing of Real-Time Response API to centrally and conveniently push HOSTS files to Windows.
 
