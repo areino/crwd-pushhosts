@@ -16,7 +16,7 @@ r"""PushHosts - Push HOSTS file to Windows endpoints.
  12/06/2023   v1.0    First version
  22/08/2023   v1.1    Add rollback capability and some bug fixes, tested with FalconPy 1.3.0
  31/08/2023   v1.2    Add RTR command to fix permissions to new HOSTS file
- 04/09/2023   v1.3    Handloe API auth errors
+ 04/09/2023   v1.3    Handle API auth errors
 
 """
 # Import dependencies
