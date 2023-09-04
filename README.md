@@ -84,4 +84,13 @@ python3 pushhosts.py --falcon_client_id FALCON_CLIENT_ID --falcon_client_secret 
                         --scope hostgroup --scope_id HOST_GROUP_ID --hosts_file FILEHASH
 ```
 
+What the script does on every Windows endpoint part of the CID or Hostgroup scope:
+
+- Change working directory to c:\windows\system32\drivers\etc\
+- Rename 'hosts' file to 'hosts.TIMESTAMP.backup'
+- Copy new 'hosts' file from Falcon platform, with the 'put' command.
+- Rename new file to 'hosts' if not already named that.
+- Grand Read and Execute permissions to new 'hosts' file for built-in group 'Users'.
+- Flush DNS resolution cache.
+  
 ![Execution](./images/step4.png)
