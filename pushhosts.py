@@ -16,13 +16,14 @@ r"""PushHosts - Push HOSTS file to Windows endpoints.
  12/06/2023   v1.0    First version
  22/08/2023   v1.1    Add rollback capability and some bug fixes, tested with FalconPy 1.3.0
  31/08/2023   v1.2    Add RTR command to fix permissions to new HOSTS file
+ 04/09/2023   v1.3    Handloe API auth errors
 
 """
 # Import dependencies
 import datetime
 from argparse import ArgumentParser, RawTextHelpFormatter
 
-version = "1.2"
+version = "1.3"
 
 # Define logging function
 def log(msg):
@@ -103,7 +104,15 @@ def main():
 
     # Check which CID the API client is operating in, as sanity check. Exit if operating CID does not match provided scope_id.
     falcon = SensorDownload(auth_object=auth, base_url=args.base_url)
-    current_cid = falcon.get_sensor_installer_ccid()["body"]["resources"][0][:-3]
+    response = falcon.get_sensor_installer_ccid()
+
+    if response["status_code"] < 300:
+        log(f"-- Authentication correct.")
+    else:
+        log(f"-- Authentication error: {response['status_code']} - {response['body']['errors'][0]['message']}")
+        raise SystemExit(f"-- Authentication error: {response['status_code']} - {response['body']['errors'][0]['message']}")
+
+    current_cid = response["body"]["resources"][0][:-3]
     if (args.scope.lower() == "cid" and (args.scope_id.lower() != current_cid.lower())):
         log(f"The entered CID [{args.scope_id.upper()}] does not match the API client CID [{current_cid.upper()}].")
         raise SystemExit(f"The entered CID [{args.scope_id.upper()}] does not match the API client CID [{current_cid.upper()}].")
